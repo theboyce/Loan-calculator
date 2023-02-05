@@ -1,10 +1,19 @@
 //Listen for submit
-document
-  .getElementById('loan-form')
-  .addEventListener('submit', calculateResults);
+document.getElementById('loan-form').addEventListener('submit', function(e){
+  
+  // Hide results
+  document.getElementById('results').style.display = 'none';
+  
+  // Show loader
+  document.getElementById('loading').style.display = 'block';
+
+  setTimeout(calculateResults, 2000);
+
+  e.preventDefault();
+});
 
 //Create a function to calculate results
-function calculateResults(e) {
+function calculateResults() {
   console.log('Calculating...');
 
   //ui vars
@@ -27,10 +36,53 @@ function calculateResults(e) {
   if (isFinite(monthly)) {
     monthlyPayment.value = monthly.toFixed(2);
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
-    totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
+    totalInterest.value = (monthly * calculatedPayments - principal).toFixed(2);
+
+    //show results
+    document.getElementById('results').style.display = 'block';
+
+    //hide loader
+    document.getElementById('loading').style.display = 'none';
+
   } else {
-    console.log('Please check your nunmbers');
+    showError('Please check your numbers');
   }
 
-  e.preventDefault();
+  
+}
+
+//create a div
+function showError(error){
+
+
+  //hide results
+  document.getElementById('results').style.display = 'none';
+
+  //hide loader
+  document.getElementById('loading').style.display = 'none';
+
+  const errorDiv = document.createElement('div');
+
+  //get elements
+  const card = document.querySelector('.card')
+  const heading = document.querySelector('.heading')
+
+  //add class
+  errorDiv.className = "alert alert-danger";
+
+  //create a text node and append to div
+  errorDiv.appendChild(document.createTextNode(error));
+
+  //Insert error above heading
+  card.insertBefore(errorDiv, heading);
+
+  //clear error after 3 seconds
+  setTimeout(clearAlert, 2000);
+
+   
+}
+
+
+function clearAlert(){
+  document.querySelector('.alert').remove();
 }
