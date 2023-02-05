@@ -7,6 +7,9 @@ document.getElementById('loan-form').addEventListener('submit', function(e){
   // Show loader
   document.getElementById('loading').style.display = 'block';
 
+  //show reset button
+
+
   setTimeout(calculateResults, 2000);
 
   e.preventDefault();
@@ -41,8 +44,14 @@ function calculateResults() {
     //show results
     document.getElementById('results').style.display = 'block';
 
+    //show reset button
+    document.querySelector('.reset').style.display = 'block';
+
     //hide loader
     document.getElementById('loading').style.display = 'none';
+
+    //hide calculate button
+    document.querySelector('.btn').style.display = 'none';
 
   } else {
     showError('Please check your numbers');
@@ -85,4 +94,14 @@ function showError(error){
 
 function clearAlert(){
   document.querySelector('.alert').remove();
+}
+
+
+document.querySelector('.reset').addEventListener('click', reset);
+
+
+function reset(){
+  //reload page
+
+window.location.reload();
 }
